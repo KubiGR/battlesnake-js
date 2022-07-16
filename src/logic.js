@@ -1,9 +1,9 @@
-import { printGrid, printStats } from "./utils";
+import { printGrid, printStats } from "./utils.js";
 
 function getDefaultGrid(width, height) {
   const grid = [];
   for (let i = 0; i < height; i++) {
-    row = [];
+    const row = [];
     for (let j = 0; j < width; j++) {
       row.push(0);
     }

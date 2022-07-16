@@ -1,10 +1,10 @@
 module.exports = {
   env: {
-    browser: true,
+    node: true,
     es2021: true,
     jest: true,
   },
-  extends: ["google", "prettier"],
+  extends: ["eslint:recommended", "google", "prettier"],
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
