@@ -1,9 +1,9 @@
-import { printGrid, printStats } from "./utils.js";
+import { printGrid, printStats } from "./utils";
 
-function getDefaultGrid(width, height, defaultValue) {
-  let grid = [];
+function getDefaultGrid(width, height) {
+  const grid = [];
   for (let i = 0; i < height; i++) {
-    let row = [];
+    row = [];
     for (let j = 0; j < width; j++) {
       row.push(0);
     }
@@ -13,9 +13,9 @@ function getDefaultGrid(width, height, defaultValue) {
 }
 
 function joinGrids(grid1, grid2) {
-  let grid = [];
+  const grid = [];
   for (let i = 0; i < grid1.length; i++) {
-    let row = [];
+    const row = [];
     for (let j = 0; j < grid1[i].length; j++) {
       if (grid1[i][j] < 0 && grid2[i][j] < 0) {
         row.push(Math.min(grid1[i][j], grid2[i][j]));
@@ -64,11 +64,11 @@ function evaluateFoodTiles(grid, gameState) {
 
 function evaluateCollisiontiles(grid, gameState) {
   const cloneGrid = grid.slice();
-  const snakes = gameState.board.snakes;
+  const { snakes } = gameState.board;
   for (let i = 0; i < snakes.length; i++) {
     const snake = snakes[i];
     for (let j = 0; j < snake.body.length; j++) {
-      let bodyPart = snake.body[j];
+      const bodyPart = snake.body[j];
       grid[bodyPart.y][bodyPart.x] = -1;
     }
   }

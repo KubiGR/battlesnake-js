@@ -1,10 +1,10 @@
 import express from "express";
-import { move } from "./logic.js";
-import { info, start, end } from "./misc.js";
+import { move } from "./logic";
+import { info, start, end } from "./misc";
 
 const app = express();
 app.use(express.json());
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   res.set("Server", "BattlesnakeOfficial/starter-snake-typescript");
   next();
 });
