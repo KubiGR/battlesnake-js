@@ -1,6 +1,6 @@
 import express from "express";
-import { move } from "./logic";
-import { info, start, end } from "./misc";
+import { move } from "./logic.js";
+import { info, start, end } from "./misc.js";
 
 const app = express();
 app.use(express.json());

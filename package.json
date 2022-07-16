@@ -2,6 +2,7 @@
   "name": "starter-snake-javascript",
   "version": "1.0.0",
   "description": "A simple Battlesnake written in JavaScript",
+  "type": "module",
   "scripts": {
     "start": "node src/index.js",
     "test": "jest --silent"

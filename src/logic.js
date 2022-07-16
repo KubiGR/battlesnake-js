@@ -1,4 +1,4 @@
-import { printGrid, printStats } from "./utils";
+import { printGrid, printStats } from "./utils.js";
 
 function getDefaultGrid(width, height, defaultValue) {
   let grid = [];
