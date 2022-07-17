@@ -228,11 +228,11 @@ export function move(gameState) {
     gameState.you.head.y
   );
 
-  responseNr++;
-  if (responseNr > 12) {
-    console.log("SUICIDE");
-    return { move: "up" };
-  }
+  // responseNr++;
+  // if (responseNr > 12) {
+  //   console.log("SUICIDE");
+  //   return { move: "up" };
+  // }
 
   const response = {
     move: direction,
@@ -240,4 +240,4 @@ export function move(gameState) {
   return response;
 }
 
-let responseNr = 0;
+// let responseNr = 0;
