@@ -45,7 +45,7 @@ export function valueLeftOfHead(grid, head) {
 }
 
 export function valueRightOfHead(grid, head) {
-  if (head.x + 1 < 11) {
+  if (head.x + 1 < grid.length) {
     return grid[head.y][head.x + 1];
   }
   return undefined;
@@ -59,8 +59,16 @@ export function valueDownOfHead(grid, head) {
 }
 
 export function valueUpOfHead(grid, head) {
-  if (head.y + 1 < 11) {
+  if (head.y + 1 < grid.length) {
     return grid[head.y + 1][head.x];
   }
   return undefined;
+}
+
+export function insertIntoGrid(grid, x, y, value) {
+  if (x < 0 || x > grid.length - 1 || y < 0 || y > grid.length - 1) {
+    return;
+  }
+
+  grid[x][y] = value;
 }

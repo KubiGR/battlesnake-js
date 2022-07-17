@@ -1,6 +1,7 @@
 import {
   changeAllTilesOfValue,
   cloneGrid,
+  insertIntoGrid,
   printGrid,
   printStats,
   valueDownOfHead,
@@ -10,12 +11,12 @@ import {
 } from "./utils.js";
 import { floodFill } from "./floodFill.js";
 
-function getDefaultGrid(width, height) {
+function getDefaultGrid(width, height, value) {
   const grid = [];
   for (let i = 0; i < height; i++) {
     const row = [];
     for (let j = 0; j < width; j++) {
-      row.push(0);
+      row.push(value);
     }
     grid.push(row);
   }
@@ -61,15 +62,29 @@ function getDirection(grid, x, y) {
 }
 
 function evaluateFoodTiles(grid, gameState) {
-  const cloneGrid = grid.slice();
+  const newGrid = cloneGrid(grid);
   gameState.board.food.forEach((foodItem) => {
-    grid[foodItem.y][foodItem.x] = 1;
+    insertIntoGrid(newGrid, foodItem.x, foodItem.y, 1);
+
+    insertIntoGrid(newGrid, foodItem.x, foodItem.y + 1, 0.8);
+    insertIntoGrid(newGrid, foodItem.x, foodItem.y - 1, 0.8);
+    insertIntoGrid(newGrid, foodItem.x + 1, foodItem.y, 0.8);
+    insertIntoGrid(newGrid, foodItem.x - 1, foodItem.y, 0.8);
+
+    insertIntoGrid(newGrid, foodItem.x, foodItem.y + 2, 0.4);
+    insertIntoGrid(newGrid, foodItem.x, foodItem.y - 2, 0.4);
+    insertIntoGrid(newGrid, foodItem.x + 2, foodItem.y, 0.4);
+    insertIntoGrid(newGrid, foodItem.x - 2, foodItem.y, 0.4);
+
+    insertIntoGrid(newGrid, foodItem.x + 1, foodItem.y + 1, 0.4);
+    insertIntoGrid(newGrid, foodItem.x - 1, foodItem.y - 1, 0.4);
+    insertIntoGrid(newGrid, foodItem.x - 1, foodItem.y + 1, 0.4);
+    insertIntoGrid(newGrid, foodItem.x + 1, foodItem.y - 1, 0.4);
   });
-  return cloneGrid;
+  return newGrid;
 }
 
 function evaluateCollisiontiles(grid, gameState) {
-  const cloneGrid = grid.slice();
   const { snakes } = gameState.board;
   for (let i = 0; i < snakes.length; i++) {
     const snake = snakes[i];
@@ -78,22 +93,27 @@ function evaluateCollisiontiles(grid, gameState) {
       grid[bodyPart.y][bodyPart.x] = -1;
     }
   }
-  return cloneGrid;
 }
 
 export function move(gameState) {
   printStats(gameState);
   const myLength = gameState.you.length;
-  const functions = [evaluateFoodTiles, evaluateCollisiontiles];
+  const functions = [evaluateFoodTiles];
   console.log("MOVE");
   let grid = getDefaultGrid(gameState.board.width, gameState.board.height, 0);
 
-  functions.forEach((func) => {
-    const funcGrid = func(grid, gameState);
-    grid = joinGrids(grid, funcGrid);
-    // console.log("FUNC", func);
-    // printGrid(funcGrid);
-  });
+  // TODO: Check logic and mutable grids
+  // functions.forEach((func) => {
+  //   const funcGrid = func(grid, gameState);
+  //   console.log("FUNC", func);
+  //   printGrid(funcGrid);
+  //   grid = joinGrids(grid, funcGrid);
+  // });
+
+  grid = evaluateFoodTiles(grid, gameState);
+  printGrid(grid);
+  evaluateCollisiontiles(grid, gameState);
+  printGrid(grid);
 
   const myHead = gameState.you.head;
 
@@ -107,7 +127,6 @@ export function move(gameState) {
     });
   });
 
-  // printGrid(gridToFloodFill);
   const rightOfHead = valueRightOfHead(gridToFloodFill, myHead);
   if (
     rightOfHead !== undefined &&
@@ -121,7 +140,6 @@ export function move(gameState) {
       "R"
     );
     Rnr = numberOfTiles;
-    console.log("R GRID");
     floods++;
   }
 
@@ -138,7 +156,6 @@ export function move(gameState) {
       "L"
     );
     Lnr = numberOfTiles;
-    console.log("L GRID");
     floods++;
   }
 
@@ -155,7 +172,6 @@ export function move(gameState) {
       "U"
     );
     Unr = numberOfTiles;
-    console.log("U GRID");
     floods++;
   }
 
@@ -172,14 +188,10 @@ export function move(gameState) {
       "D"
     );
     Dnr = numberOfTiles;
-    console.log("D GRID");
     floods++;
   }
 
   if (floods > 1) {
-    printGrid(grid);
-    console.log(`${Rnr}.${Lnr}.${Unr}.${Dnr}`);
-    printGrid(gridToFloodFill);
     if (Rnr < myLength) {
       const modifier = Rnr / myLength - 1;
       gridToFloodFill = changeAllTilesOfValue(gridToFloodFill, "R", modifier);
@@ -196,7 +208,6 @@ export function move(gameState) {
       const modifier = Dnr / myLength - 1;
       gridToFloodFill = changeAllTilesOfValue(gridToFloodFill, "D", modifier);
     }
-    printGrid(gridToFloodFill);
 
     for (let i = 0; i < grid.length; i++) {
       for (let j = 0; j < grid[i].length; j++) {
@@ -205,8 +216,6 @@ export function move(gameState) {
         }
       }
     }
-
-    printGrid(grid);
   }
 
   const direction = getDirection(
@@ -214,8 +223,14 @@ export function move(gameState) {
     gameState.you.head.x,
     gameState.you.head.y
   );
+
+  // responseNr++;
+  // if (responseNr > 20) return { move: "up" };
+
   const response = {
     move: direction,
   };
   return response;
 }
+
+// let responseNr = 0;
