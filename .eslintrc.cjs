@@ -2,14 +2,11 @@ module.exports = {
   env: {
     node: true,
     es2021: true,
-    jest: true,
   },
-  extends: ["eslint:recommended", "google", "prettier"],
+  extends: ["eslint:recommended", "prettier"],
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  rules: {
-    "require-jsdoc": "off",
-  },
+  rules: {},
 };
