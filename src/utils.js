@@ -70,5 +70,5 @@ export function insertIntoGrid(grid, x, y, value) {
     return;
   }
 
-  grid[x][y] = value;
+  grid[y][x] = value;
 }

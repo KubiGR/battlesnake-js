@@ -2,7 +2,7 @@ import {
   changeAllTilesOfValue,
   cloneGrid,
   insertIntoGrid,
-  printGrid,
+  // printGrid,
   printStats,
   valueDownOfHead,
   valueLeftOfHead,
@@ -23,21 +23,21 @@ function getDefaultGrid(width, height, value) {
   return grid;
 }
 
-function joinGrids(grid1, grid2) {
-  const grid = [];
-  for (let i = 0; i < grid1.length; i++) {
-    const row = [];
-    for (let j = 0; j < grid1[i].length; j++) {
-      if (grid1[i][j] < 0 && grid2[i][j] < 0) {
-        row.push(Math.min(grid1[i][j], grid2[i][j]));
-      } else {
-        row.push(grid1[i][j] * grid2[i][j]);
-      }
-    }
-    grid.push(row);
-  }
-  return grid;
-}
+// function joinGrids(grid1, grid2) {
+//   const grid = [];
+//   for (let i = 0; i < grid1.length; i++) {
+//     const row = [];
+//     for (let j = 0; j < grid1[i].length; j++) {
+//       if (grid1[i][j] < 0 && grid2[i][j] < 0) {
+//         row.push(Math.min(grid1[i][j], grid2[i][j]));
+//       } else {
+//         row.push(grid1[i][j] * grid2[i][j]);
+//       }
+//     }
+//     grid.push(row);
+//   }
+//   return grid;
+// }
 
 function getDirection(grid, x, y) {
   let bestDirection = "";
@@ -98,7 +98,7 @@ function evaluateCollisiontiles(grid, gameState) {
 export function move(gameState) {
   printStats(gameState);
   const myLength = gameState.you.length;
-  const functions = [evaluateFoodTiles];
+  // const functions = [evaluateFoodTiles];
   console.log("MOVE");
   let grid = getDefaultGrid(gameState.board.width, gameState.board.height, 0);
 
@@ -111,9 +111,9 @@ export function move(gameState) {
   // });
 
   grid = evaluateFoodTiles(grid, gameState);
-  printGrid(grid);
+  // printGrid(grid);
   evaluateCollisiontiles(grid, gameState);
-  printGrid(grid);
+  // printGrid(grid);
 
   const myHead = gameState.you.head;
 
@@ -225,7 +225,10 @@ export function move(gameState) {
   );
 
   // responseNr++;
-  // if (responseNr > 20) return { move: "up" };
+  // if (responseNr > 300) {
+  //   console.log("SUICIDE");
+  //   return { move: "up" };
+  // }
 
   const response = {
     move: direction,
