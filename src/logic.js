@@ -69,7 +69,8 @@ function evaluateFoodTiles(grid, gameState) {
       const mods = [];
       gameState.board.food.forEach((foodItem) => {
         const dist = getManhattanDist(j, i, foodItem.x, foodItem.y);
-        mods.push(1 - dist / getMaxManhattanDist(grid));
+        const mod = 1 - dist / getMaxManhattanDist(grid);
+        mods.push(mod ** mod);
       });
       const average = mods.reduce((prev, curr) => prev + curr, 0) / mods.length;
       newGrid[i][j] = average;
