@@ -67,13 +67,22 @@ function evaluateFoodTiles(grid, gameState) {
   for (let i = 0; i < grid.length; i++) {
     for (let j = 0; j < grid[i].length; j++) {
       const mods = [];
+      let foundFoodCloseBy = false;
       gameState.board.food.forEach((foodItem) => {
-        const dist = getManhattanDist(j, i, foodItem.x, foodItem.y);
-        const mod = 1 - dist / getMaxManhattanDist(grid);
-        mods.push(mod ** mod);
+        if (foodItem.x === j && foodItem.y === i) {
+          foundFoodCloseBy = true;
+          newGrid[i][j] = 1;
+        } else {
+          const dist = getManhattanDist(j, i, foodItem.x, foodItem.y);
+          const mod = 1 - dist / getMaxManhattanDist(grid);
+          mods.push(Math.pow(mod, 3));
+        }
       });
-      const average = mods.reduce((prev, curr) => prev + curr, 0) / mods.length;
-      newGrid[i][j] = average;
+      if (!foundFoodCloseBy) {
+        const average =
+          mods.reduce((prev, curr) => prev + curr, 0) / mods.length;
+        newGrid[i][j] = average;
+      }
     }
   }
   return newGrid;
@@ -219,11 +228,11 @@ export function move(gameState) {
     gameState.you.head.y
   );
 
-  // responseNr++;
-  // if (responseNr > 12) {
-  //   console.log("SUICIDE");
-  //   return { move: "up" };
-  // }
+  responseNr++;
+  if (responseNr > 12) {
+    console.log("SUICIDE");
+    return { move: "up" };
+  }
 
   const response = {
     move: direction,
@@ -231,4 +240,4 @@ export function move(gameState) {
   return response;
 }
 
-// let responseNr = 0;
+let responseNr = 0;
