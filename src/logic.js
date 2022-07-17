@@ -1,8 +1,9 @@
 import {
   changeAllTilesOfValue,
   cloneGrid,
-  insertIntoGrid,
-  // printGrid,
+  getManhattanDist,
+  getMaxManhattanDist,
+  printGrid,
   printStats,
   valueDownOfHead,
   valueLeftOfHead,
@@ -63,24 +64,17 @@ function getDirection(grid, x, y) {
 
 function evaluateFoodTiles(grid, gameState) {
   const newGrid = cloneGrid(grid);
-  gameState.board.food.forEach((foodItem) => {
-    insertIntoGrid(newGrid, foodItem.x, foodItem.y, 1);
-
-    insertIntoGrid(newGrid, foodItem.x, foodItem.y + 1, 0.8);
-    insertIntoGrid(newGrid, foodItem.x, foodItem.y - 1, 0.8);
-    insertIntoGrid(newGrid, foodItem.x + 1, foodItem.y, 0.8);
-    insertIntoGrid(newGrid, foodItem.x - 1, foodItem.y, 0.8);
-
-    insertIntoGrid(newGrid, foodItem.x, foodItem.y + 2, 0.4);
-    insertIntoGrid(newGrid, foodItem.x, foodItem.y - 2, 0.4);
-    insertIntoGrid(newGrid, foodItem.x + 2, foodItem.y, 0.4);
-    insertIntoGrid(newGrid, foodItem.x - 2, foodItem.y, 0.4);
-
-    insertIntoGrid(newGrid, foodItem.x + 1, foodItem.y + 1, 0.4);
-    insertIntoGrid(newGrid, foodItem.x - 1, foodItem.y - 1, 0.4);
-    insertIntoGrid(newGrid, foodItem.x - 1, foodItem.y + 1, 0.4);
-    insertIntoGrid(newGrid, foodItem.x + 1, foodItem.y - 1, 0.4);
-  });
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[i].length; j++) {
+      const mods = [];
+      gameState.board.food.forEach((foodItem) => {
+        const dist = getManhattanDist(j, i, foodItem.x, foodItem.y);
+        mods.push(1 - dist / getMaxManhattanDist(grid));
+      });
+      const average = mods.reduce((prev, curr) => prev + curr, 0) / mods.length;
+      newGrid[i][j] = average;
+    }
+  }
   return newGrid;
 }
 
@@ -111,9 +105,9 @@ export function move(gameState) {
   // });
 
   grid = evaluateFoodTiles(grid, gameState);
-  // printGrid(grid);
+  printGrid(grid);
   evaluateCollisiontiles(grid, gameState);
-  // printGrid(grid);
+  printGrid(grid);
 
   const myHead = gameState.you.head;
 
@@ -224,11 +218,11 @@ export function move(gameState) {
     gameState.you.head.y
   );
 
-  // responseNr++;
-  // if (responseNr > 300) {
-  //   console.log("SUICIDE");
-  //   return { move: "up" };
-  // }
+  responseNr++;
+  if (responseNr > 12) {
+    console.log("SUICIDE");
+    return { move: "up" };
+  }
 
   const response = {
     move: direction,
@@ -236,4 +230,4 @@ export function move(gameState) {
   return response;
 }
 
-// let responseNr = 0;
+let responseNr = 0;

@@ -72,3 +72,11 @@ export function insertIntoGrid(grid, x, y, value) {
 
   grid[y][x] = value;
 }
+
+export function getManhattanDist(x, y, tarX, tarY) {
+  return Math.abs(tarX - x) + Math.abs(tarY - y);
+}
+
+export function getMaxManhattanDist(grid) {
+  return getManhattanDist(0, 0, grid.length - 1, grid[0].length - 1);
+}
