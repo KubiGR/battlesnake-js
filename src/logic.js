@@ -4,7 +4,7 @@ import {
   getManhattanDist,
   getMaxManhattanDist,
   getSortedMoves,
-  // printGrid,
+  printGrid,
   printStats,
   valueDownOfHead,
   valueLeftOfHead,
@@ -118,6 +118,20 @@ function evaluateCollisiontiles(grid, gameState) {
   }
 }
 
+function getAwayFromBiggerSnakes(grid, gameState) {
+  const { snakes } = gameState.board;
+  const mySnake = snakes.find((sn) => sn.id === mySnakeId);
+  const otherSnakes = snakes.filter((sn) => sn.id !== mySnakeId);
+  otherSnakes.forEach((sn) => {
+    if (sn.length > mySnake.length) {
+      grid[sn.head.y + 1][sn.head.x] = -0.8;
+      grid[sn.head.y - 1][sn.head.x] = -0.8;
+      grid[sn.head.y][sn.head.x + 1] = -0.8;
+      grid[sn.head.y][sn.head.x - 1] = -0.8;
+    }
+  });
+}
+
 export function move(gameState) {
   // if (responseNr > 50) {
   //   console.log("DEATH");
@@ -127,6 +141,9 @@ export function move(gameState) {
   printStats(gameState);
   const myLength = gameState.you.length;
   const myHead = gameState.you.head;
+  if (!mySnakeId) {
+    mySnakeId = gameState.you.id;
+  }
   // const functions = [evaluateFoodTiles];
   console.log("MOVE ", responseNr);
   let grid = getDefaultGrid(gameState.board.width, gameState.board.height, 0);
@@ -140,11 +157,12 @@ export function move(gameState) {
   // });
 
   grid = evaluateFoodTiles(grid, gameState);
-  console.log(getSortedMoves(grid, myHead));
+  // console.log(getSortedMoves(grid, myHead));
   // printGrid(grid);
+  getAwayFromBiggerSnakes(grid, gameState);
   evaluateCollisiontiles(grid, gameState);
   // printGrid(grid);
-  console.log(getSortedMoves(grid, myHead));
+  // console.log(getSortedMoves(grid, myHead));
 
   let floods = 0;
   let Rnr, Lnr, Unr, Dnr;
@@ -258,3 +276,4 @@ export function move(gameState) {
 }
 
 let responseNr = 0;
+let mySnakeId;
