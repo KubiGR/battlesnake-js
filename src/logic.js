@@ -4,6 +4,7 @@ import {
   getManhattanDist,
   getMaxManhattanDist,
   getSortedMoves,
+  insertIntoGrid,
   printGrid,
   printStats,
   valueDownOfHead,
@@ -124,10 +125,10 @@ function getAwayFromBiggerSnakes(grid, gameState) {
   const otherSnakes = snakes.filter((sn) => sn.id !== mySnakeId);
   otherSnakes.forEach((sn) => {
     if (sn.length > mySnake.length) {
-      grid[sn.head.y + 1][sn.head.x] = -0.8;
-      grid[sn.head.y - 1][sn.head.x] = -0.8;
-      grid[sn.head.y][sn.head.x + 1] = -0.8;
-      grid[sn.head.y][sn.head.x - 1] = -0.8;
+      insertIntoGrid(grid, sn.head.x, sn.head.y + 1, -0.8);
+      insertIntoGrid(grid, sn.head.x, sn.head.y - 1, -0.8);
+      insertIntoGrid(grid, sn.head.x + 1, sn.head.y, -0.8);
+      insertIntoGrid(grid, sn.head.x - 1, sn.head.y, -0.8);
     }
   });
 }
