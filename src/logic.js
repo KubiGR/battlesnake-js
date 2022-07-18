@@ -13,7 +13,7 @@ import {
   valueUpOfHead,
 } from "./utils.js";
 import { floodFill } from "./floodFill.js";
-import { internalGameState } from "./index";
+import { internalGameState } from "./index.js";
 
 function getDefaultGrid(width, height, value) {
   const grid = [];
