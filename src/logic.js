@@ -3,7 +3,8 @@ import {
   cloneGrid,
   getManhattanDist,
   getMaxManhattanDist,
-  printGrid,
+  getSortedMoves,
+  // printGrid,
   printStats,
   valueDownOfHead,
   valueLeftOfHead,
@@ -40,27 +41,27 @@ function getDefaultGrid(width, height, value) {
 //   return grid;
 // }
 
-function getDirection(grid, x, y) {
-  let bestDirection = "";
-  let highestValue = -1;
-  if (x > 0 && grid[y][x - 1] >= highestValue) {
-    bestDirection = "left";
-    highestValue = grid[y][x - 1];
-  }
-  if (x < 10 && grid[y][x + 1] >= highestValue) {
-    bestDirection = "right";
-    highestValue = grid[y][x + 1];
-  }
-  if (y > 0 && grid[y - 1][x] >= highestValue) {
-    bestDirection = "down";
-    highestValue = grid[y - 1][x];
-  }
-  if (y < 10 && grid[y + 1][x] >= highestValue) {
-    bestDirection = "up";
-    highestValue = grid[y + 1][x];
-  }
-  return bestDirection;
-}
+// function getDirection(grid, x, y) {
+//   let bestDirection = "";
+//   let highestValue = -1;
+//   if (x > 0 && grid[y][x - 1] >= highestValue) {
+//     bestDirection = "left";
+//     highestValue = grid[y][x - 1];
+//   }
+//   if (x < 10 && grid[y][x + 1] >= highestValue) {
+//     bestDirection = "right";
+//     highestValue = grid[y][x + 1];
+//   }
+//   if (y > 0 && grid[y - 1][x] >= highestValue) {
+//     bestDirection = "down";
+//     highestValue = grid[y - 1][x];
+//   }
+//   if (y < 10 && grid[y + 1][x] >= highestValue) {
+//     bestDirection = "up";
+//     highestValue = grid[y + 1][x];
+//   }
+//   return bestDirection;
+// }
 
 function evaluateFoodTiles(grid, gameState) {
   const myHead = gameState.you.head;
@@ -118,6 +119,11 @@ function evaluateCollisiontiles(grid, gameState) {
 }
 
 export function move(gameState) {
+  // if (responseNr > 50) {
+  //   console.log("DEATH");
+  //   return { move: "up" };
+  // }
+
   printStats(gameState);
   const myLength = gameState.you.length;
   const myHead = gameState.you.head;
@@ -134,9 +140,11 @@ export function move(gameState) {
   // });
 
   grid = evaluateFoodTiles(grid, gameState);
-  printGrid(grid);
+  console.log(getSortedMoves(grid, myHead));
+  // printGrid(grid);
   evaluateCollisiontiles(grid, gameState);
   // printGrid(grid);
+  console.log(getSortedMoves(grid, myHead));
 
   let floods = 0;
   let Rnr, Lnr, Unr, Dnr;
@@ -239,17 +247,9 @@ export function move(gameState) {
     }
   }
 
-  const direction = getDirection(
-    grid,
-    gameState.you.head.x,
-    gameState.you.head.y
-  );
+  const direction = Object.keys(getSortedMoves(grid, myHead))[0];
 
   responseNr++;
-  if (responseNr > 50) {
-    console.log("SUICIDE");
-    return { move: "up" };
-  }
 
   const response = {
     move: direction,

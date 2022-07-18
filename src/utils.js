@@ -38,28 +38,28 @@ export function valueLeftOfHead(grid, head) {
   if (head.x - 1 >= 0) {
     return grid[head.y][head.x - 1];
   }
-  return undefined;
+  return -2;
 }
 
 export function valueRightOfHead(grid, head) {
   if (head.x + 1 < grid.length) {
     return grid[head.y][head.x + 1];
   }
-  return undefined;
+  return -2;
 }
 
 export function valueDownOfHead(grid, head) {
   if (head.y - 1 >= 0) {
     return grid[head.y - 1][head.x];
   }
-  return undefined;
+  return -2;
 }
 
 export function valueUpOfHead(grid, head) {
   if (head.y + 1 < grid.length) {
     return grid[head.y + 1][head.x];
   }
-  return undefined;
+  return -2;
 }
 
 export function insertIntoGrid(grid, x, y, value) {
