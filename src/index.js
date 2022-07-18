@@ -11,22 +11,15 @@ app.use((req, res, next) => {
 
 const port = process.env.PORT || 8080;
 
-export const internalGameState = {
-  numberOfResponses: 0,
-  mySnakeId: undefined,
-};
-
 app.get("/", (req, res) => {
   res.send(info());
 });
 
 app.post("/start", (req, res) => {
-  internalGameState.mySnakeId = req.body.you.id;
   res.send(start(req.body));
 });
 
 app.post("/move", (req, res) => {
-  internalGameState.numberOfResponses = internalGameState.numberOfResponses + 1;
   res.send(move(req.body));
 });
 
