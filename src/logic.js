@@ -13,6 +13,7 @@ import {
   valueUpOfHead,
 } from "./utils.js";
 import { floodFill } from "./floodFill.js";
+import { internalGameState } from "./index";
 
 function getDefaultGrid(width, height, value) {
   const grid = [];
@@ -121,8 +122,10 @@ function evaluateCollisiontiles(grid, gameState) {
 
 function getAwayFromBiggerSnakes(grid, gameState) {
   const { snakes } = gameState.board;
-  const mySnake = snakes.find((sn) => sn.id === mySnakeId);
-  const otherSnakes = snakes.filter((sn) => sn.id !== mySnakeId);
+  const mySnake = snakes.find((sn) => sn.id === internalGameState.mySnakeId);
+  const otherSnakes = snakes.filter(
+    (sn) => sn.id !== internalGameState.mySnakeId
+  );
   otherSnakes.forEach((sn) => {
     if (sn.length > mySnake.length) {
       insertIntoGrid(grid, sn.head.x, sn.head.y + 1, -0.8);
@@ -142,11 +145,8 @@ export function move(gameState) {
   printStats(gameState);
   const myLength = gameState.you.length;
   const myHead = gameState.you.head;
-  if (!mySnakeId) {
-    mySnakeId = gameState.you.id;
-  }
   // const functions = [evaluateFoodTiles];
-  console.log("MOVE ", responseNr);
+  console.log("MOVE ", internalGameState.numberOfResponses);
   let grid = getDefaultGrid(gameState.board.width, gameState.board.height, 0);
 
   // TODO: Check logic and mutable grids
@@ -268,13 +268,8 @@ export function move(gameState) {
 
   const direction = Object.keys(getSortedMoves(grid, myHead))[0];
 
-  responseNr++;
-
   const response = {
     move: direction,
   };
   return response;
 }
-
-let responseNr = 0;
-let mySnakeId;
