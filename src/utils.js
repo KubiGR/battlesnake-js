@@ -11,15 +11,12 @@ export function printGrid(grid) {
         row.forEach((c) => {
           let str;
           if (typeof c === "number") {
-            str = c < 0 ? c.toFixed(1) : c.toFixed(2);
-          } else {
-            str = c.padStart(4, ".");
+            str = c.toFixed(2);
           }
+          str = str.padStart(7, " ");
           process.stdout.write(`${str}|`);
         });
-        process.stdout.write(
-          "\n   --------------------------------------------------------\n"
-        );
+        process.stdout.write("\n\n");
       }
     });
 }
@@ -79,4 +76,19 @@ export function getManhattanDist(x, y, tarX, tarY) {
 
 export function getMaxManhattanDist(grid) {
   return getManhattanDist(0, 0, grid.length - 1, grid[0].length - 1);
+}
+
+export function getModifiersOfNeighbourTiles(grid, head) {
+  return {
+    up: valueUpOfHead(grid, head),
+    down: valueDownOfHead(grid, head),
+    right: valueRightOfHead(grid, head),
+    left: valueLeftOfHead(grid, head),
+  };
+}
+
+export function getSortedMoves(grid, head) {
+  return Object.entries(getModifiersOfNeighbourTiles(grid, head))
+    .sort(([, a], [, b]) => b - a)
+    .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
 }

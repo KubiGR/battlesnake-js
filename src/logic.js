@@ -63,7 +63,9 @@ function getDirection(grid, x, y) {
 }
 
 function evaluateFoodTiles(grid, gameState) {
+  const myHead = gameState.you.head;
   const newGrid = cloneGrid(grid);
+  const maxDist = getMaxManhattanDist(grid);
   for (let i = 0; i < grid.length; i++) {
     for (let j = 0; j < grid[i].length; j++) {
       const mods = [];
@@ -71,11 +73,27 @@ function evaluateFoodTiles(grid, gameState) {
       gameState.board.food.forEach((foodItem) => {
         if (foodItem.x === j && foodItem.y === i) {
           foundFoodCloseBy = true;
-          newGrid[i][j] = 1;
+          newGrid[i][j] = 1000;
         } else {
           const dist = getManhattanDist(j, i, foodItem.x, foodItem.y);
-          const mod = 1 - dist / getMaxManhattanDist(grid);
-          mods.push(Math.pow(mod, 3));
+          const moddedDist = 1 - dist / maxDist;
+
+          const distFoodFromHead = getManhattanDist(
+            myHead.x,
+            myHead.y,
+            foodItem.x,
+            foodItem.y
+          );
+          const moddedDistFromHead = 1 - distFoodFromHead / maxDist;
+
+          const loggedDistFromHead = -(
+            1 /
+            Math.log(moddedDistFromHead) /
+            Math.log(1.05)
+          );
+          const finalMod = moddedDist * loggedDistFromHead;
+
+          mods.push(finalMod);
         }
       });
       if (!foundFoodCloseBy) {
@@ -102,8 +120,9 @@ function evaluateCollisiontiles(grid, gameState) {
 export function move(gameState) {
   printStats(gameState);
   const myLength = gameState.you.length;
+  const myHead = gameState.you.head;
   // const functions = [evaluateFoodTiles];
-  console.log("MOVE");
+  console.log("MOVE ", responseNr);
   let grid = getDefaultGrid(gameState.board.width, gameState.board.height, 0);
 
   // TODO: Check logic and mutable grids
@@ -117,9 +136,7 @@ export function move(gameState) {
   grid = evaluateFoodTiles(grid, gameState);
   printGrid(grid);
   evaluateCollisiontiles(grid, gameState);
-  printGrid(grid);
-
-  const myHead = gameState.you.head;
+  // printGrid(grid);
 
   let floods = 0;
   let Rnr, Lnr, Unr, Dnr;
@@ -228,11 +245,11 @@ export function move(gameState) {
     gameState.you.head.y
   );
 
-  // responseNr++;
-  // if (responseNr > 12) {
-  //   console.log("SUICIDE");
-  //   return { move: "up" };
-  // }
+  responseNr++;
+  if (responseNr > 50) {
+    console.log("SUICIDE");
+    return { move: "up" };
+  }
 
   const response = {
     move: direction,
@@ -240,4 +257,4 @@ export function move(gameState) {
   return response;
 }
 
-// let responseNr = 0;
+let responseNr = 0;
