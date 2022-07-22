@@ -1,4 +1,5 @@
 import {
+  buildGrid,
   changeAllTilesOfValue,
   cloneGrid,
   getManhattanDist,
@@ -13,18 +14,6 @@ import {
   valueUpOfHead,
 } from "./utils.js";
 import { floodFill } from "./floodFill.js";
-
-function getDefaultGrid(width, height, value) {
-  const grid = [];
-  for (let i = 0; i < height; i++) {
-    const row = [];
-    for (let j = 0; j < width; j++) {
-      row.push(value);
-    }
-    grid.push(row);
-  }
-  return grid;
-}
 
 // function joinGrids(grid1, grid2) {
 //   const grid = [];
@@ -144,7 +133,7 @@ export function move(gameState) {
   const myHead = gameState.you.head;
   // const functions = [evaluateFoodTiles];
   console.log("MOVE ", gameState.turn);
-  let grid = getDefaultGrid(gameState.board.width, gameState.board.height, 0);
+  let grid = buildGrid(gameState.board.width, gameState.board.height, 0);
 
   // TODO: Check logic and mutable grids
   // functions.forEach((func) => {

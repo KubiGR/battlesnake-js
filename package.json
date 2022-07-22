@@ -5,12 +5,17 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "test": "jest --silent",
+    "test": "jest",
     "lint": "eslint . --fix --ext .js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BattlesnakeOfficial/starter-snake-javascript.git"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
   },
   "author": "BattlesnakeOfficial",
   "license": "MIT",
@@ -19,6 +24,8 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.18.9",
+    "babel-jest": "^28.1.3",
     "eslint": "^8.20.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.5.0",

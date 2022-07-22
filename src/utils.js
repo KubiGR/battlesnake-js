@@ -92,3 +92,15 @@ export function getSortedMoves(grid, head) {
     .sort(([, a], [, b]) => b - a)
     .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
 }
+
+export function buildGrid(width, height, value) {
+  const grid = [];
+  for (let i = 0; i < height; i++) {
+    const row = [];
+    for (let j = 0; j < width; j++) {
+      row.push(value);
+    }
+    grid.push(row);
+  }
+  return grid;
+}
