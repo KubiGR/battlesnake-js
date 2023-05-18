@@ -6,7 +6,6 @@ import {
   getMaxManhattanDist,
   getSortedMoves,
   insertIntoGrid,
-  printGrid,
   printStats,
   valueDownOfHead,
   valueLeftOfHead,
