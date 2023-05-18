@@ -2,15 +2,13 @@
 
 ![Battlesnake Logo](https://media.battlesnake.com/social/StarterSnakeGitHubRepos_JavaScript.png)
 
-This is a basic implementation of the [Battlesnake API](https://docs.battlesnake.com/references/api) in JavaScript. It's a great starting point for anyone wanting to program their first Battlesnake using JavaScript, and comes ready to deploy with [Replit](https://repl.it) and [Heroku](https://heroku.com), or you can use any other cloud provider you'd like. 
- 
+This is a basic implementation of the [Battlesnake API](https://docs.battlesnake.com/references/api) in JavaScript. It's a great starting point for anyone wanting to program their first Battlesnake using JavaScript, and comes ready to deploy with [Replit](https://repl.it) and [Heroku](https://heroku.com), or you can use any other cloud provider you'd like.
 
 ## Technologies Used
 
-* [JavaScript](https://www.javascript.com/)
-* [Node.js](https://nodejs.dev/)
-* [Express](https://expressjs.com/)
-
+- [JavaScript](https://www.javascript.com/)
+- [Node.js](https://nodejs.dev/)
+- [Express](https://expressjs.com/)
 
 ## Quickstart
 
@@ -18,7 +16,7 @@ The [Quick Start Coding Guide](https://docs.battlesnake.com/guides/getting-start
 
 ### Prerequisites
 
-* A free [Battlesnake Account](https://play.battlesnake.com/?utm_source=github&utm_medium=readme&utm_campaign=javascript_starter&utm_content=homepage)
+- A free [Battlesnake Account](https://play.battlesnake.com/?utm_source=github&utm_medium=readme&utm_campaign=javascript_starter&utm_content=homepage)
 
 ---
 
@@ -32,9 +30,10 @@ const response = {
   author: "",
   color: "#888888",
   head: "default",
-  tail: "default"
-}
+  tail: "default",
+};
 ```
+
 This function is called by the game engine periodically to make sure your Battlesnake is healthy, responding correctly, and to determine how your Battlesnake will appear on the game board. See [Battlesnake Personalization](https://docs.battlesnake.com/references/personalization) for how to customize your Battlesnake's appearance using these values.
 
 Whenever you update these values, go to the page for your Battlesnake and select 'Refresh Metadata' from the option menu. This will update your Battlesnake to use your latest configuration and those changes should be reflected in the UI as well as any new games created.
@@ -61,9 +60,11 @@ npm start
 ## Running Tests
 
 This Starter Project comes with a very simple test suite for you to expand! Located in `test/logic.spec.js` you can run them using the following command:
+
 ```shell
 npm test
 ```
+
 ---
 
 ## Playing Battlesnake
@@ -94,8 +95,6 @@ Check out live Battlesnake events on [Twitch](https://www.twitch.tv/battlesnakeo
 
 Want to contribute to Battlesnake? We have a number of open-source codebases and would love for you to get involved! Check out our page on [Contributing.](https://docs.battlesnake.com/guides/contributing)
 
-
 ## Feedback
 
 **Do you have an issue or suggestions for this repository?** Head over to our [Feedback Repository](https://play.battlesnake.com/feedback?utm_source=github&utm_medium=readme&utm_campaign=javascript_starter&utm_content=feedback) today and let us know!
-

@@ -6,7 +6,10 @@
   "scripts": {
     "start": "node src/index.js",
     "test": "jest",
-    "lint": "eslint . --fix --ext .js"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -29,6 +32,7 @@
     "eslint": "^8.20.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.5.0",
-    "jest": "^27.0.6"
+    "jest": "^27.0.6",
+    "prettier": "^2.8.8"
   }
 }
