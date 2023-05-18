@@ -9,7 +9,7 @@ export function printGrid(grid) {
           `${(grid.length - i - 1).toString().padStart(2, "0")}:|`
         );
         row.forEach((c) => {
-          let str;
+          let str = "";
           if (typeof c === "number") {
             str = c.toFixed(2);
           }

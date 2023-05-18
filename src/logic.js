@@ -6,7 +6,6 @@ import {
   getMaxManhattanDist,
   getSortedMoves,
   insertIntoGrid,
-  printStats,
   valueDownOfHead,
   valueLeftOfHead,
   valueRightOfHead,
@@ -127,7 +126,7 @@ export function move(gameState) {
   //   return { move: "up" };
   // }
 
-  printStats(gameState);
+  // printStats(gameState);
   const myLength = gameState.you.length;
   const myHead = gameState.you.head;
   // const functions = [evaluateFoodTiles];
