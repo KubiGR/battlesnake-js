@@ -1,20 +1,20 @@
-name: Render
-
+name: Trigger Render Deployment
 on:
+  push:
+    branches:
+      - master
   pull_request:
-    branches: [master]
-    
+    branches:
+      - master
+
 jobs:
-  deploy:
-    name: Wait for Deploy
+  main:
+    name: Deploy to Render
     runs-on: ubuntu-latest
     steps:
-      - name: Wait for Render Deployment
-        uses: bounceapp/render-action@0.6.0
+      - name: Trigger deployment
+        uses: sws2apps/render-deployment@main #consider using pin for dependabot auto update
         with:
-          render-token: ${{ secrets.RENDER_TOKEN }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          service-id: srv-cmdf5po21fec73d318k0
-          retries: 20
-          wait: 16000
-          sleep: 30000
+          serviceId: srv-cmdf5po21fec73d318k0
+          apiKey: ${{ secrets.RENDER_TOKEN }}
+          multipleDeployment: false #optional, default true
